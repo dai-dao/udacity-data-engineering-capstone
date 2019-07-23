@@ -36,7 +36,7 @@
 10. Denormalized immigration demographics: Joining immigration with demographics data, to get the population of places where immigrants go
 
 
-# EC2
+# AWS Infrastructure
 - The AWS infrastructure is set up according to this [https://aws.amazon.com/blogs/big-data/build-a-concurrent-data-orchestration-pipeline-using-amazon-emr-and-apache-livy/](tutorial)
 - Upload the CloudFormation script to create the resources, such as EC2 instance, RSD database for Airflow, security groups, S3 bucket
 - Then connect to the EC2 instance:
@@ -60,11 +60,3 @@ bash run_dags.sh
 - Livy session NOT started, restart EMR, restart Airflow scheduler
 
 
-# TODO
-
-- Fix up the Formation script to automate the code
-    - Set up a Git repo and prepare in the same structure as in the EC2 instance
-- Documentation - SELL
-    - Blog post - PORTFOLIO
-    
-    
