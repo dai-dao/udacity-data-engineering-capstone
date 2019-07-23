@@ -49,11 +49,19 @@ bash run_dags.sh
 
 # ETL
 - dag_cluster: start the EMR cluster, and wait for all data transformation is finished, then terminate the cluster
+
+![alt text](imgs/cluster-dag.png)
+
 - dag_normalize: wait for EMR cluster to be ready, then use Apache Livy REST API to create interactive Spark session on the cluster, submit a Spark script to read data from S3, do transformation and write the output to S3
     - This DAG handles normalized tables
+
+![alt text](imgs/normalize_dag.png)
+
 - dag_analytics: wait for EMR cluster to be ready, and that normalized tables are processed, then read normalized tables to create analytics tables, and write to S3
     - This DAG handles immigration data, which is partitioned for 12 months from jan-2016 to dec-2016
     - To re-run this DAG, change the DAG name, then delete the existing DAG from Airflow, and refresh the UI
+
+![alt text](imgs/analytics_dag.png)
 
 ## Possible errors
 - Livy session NOT started, restart EMR, restart Airflow scheduler
