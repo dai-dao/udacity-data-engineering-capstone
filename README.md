@@ -5,10 +5,10 @@
 
 
 # Data sources
-- I94 Immigration Data: This data comes from the US National Tourism and Trade Office [https://travel.trade.gov/research/reports/i94/historical/2016.html](Source). This data records immigration records partitioned by month of every year.
-- World temperature Data: This dataset comes from Kaggle [https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data](Source). Includes temperature recordings of cities around the world for a period of time
-- US City Demographic Data: This dataset comes from OpenSoft [https://public.opendatasoft.com/explore/dataset/us-cities-demographics/export/](Source). Includes population formation of US states, like race and gender.
-- Aiport Code table: [https://datahub.io/core/airport-codes#data](Source). Includes a collection of airport codes and their respective cities, countries around the world.
+- I94 Immigration Data: This data comes from the US National Tourism and Trade Office [Source](https://travel.trade.gov/research/reports/i94/historical/2016.html). This data records immigration records partitioned by month of every year.
+- World temperature Data: This dataset comes from Kaggle [Source](https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data). Includes temperature recordings of cities around the world for a period of time
+- US City Demographic Data: This dataset comes from OpenSoft [Source](https://public.opendatasoft.com/explore/dataset/us-cities-demographics/export/). Includes population formation of US states, like race and gender.
+- Aiport Code table: [Source](https://datahub.io/core/airport-codes#data). Includes a collection of airport codes and their respective cities, countries around the world.
 
 
 # Data Lake Star Schema designs
@@ -24,11 +24,10 @@
     - Each airport can either be identified by ``icao_code`` or ``iata_code`` or both
 3. Normalized country: built on country codes from I94 immigration dictionary
 4. Normalized us state code: built on state codes from I94 immigration dictionary
-    - Has columns ``state | state_code``
 5. Normalized us weather: built on global weather data, filtered for US cities, joined with ``city`` table to get ``city_id``
     - Filtered for weather data in the US at the latest date
     - The raw weather data only has temperatures on a fraction of all the cities in the US
-    - Some cities in the data are duplicates, but that means they're on different states of the US. However the state is not available in the data, but instead we have the latitude - longitude coordinates. This issue is currently NOT addressed in this project, but in a production setting,we should join the latitude - longitude from weather dataset with this [https://simplemaps.com/data/us-cities](data), which includes city coordinates and their respective states
+    - Some cities in the data are duplicates, but that means they're on different states of the US. However the state is not available in the data, but instead we have the latitude - longitude coordinates. This issue is currently NOT addressed in this project, but in a production setting,we should join the latitude - longitude from weather dataset with this [data](https://simplemaps.com/data/us-cities), which includes city coordinates and their respective states
 6. Normalized us demographics: built on raw demographics data, not much transform is needed
 7. Denormalized airport weather: Joining weather data with airport location, to get the respective weather information for each US airports
 8. Normalized immigrant: Information about individual immigrants, like age, gender, occupation, visa type, built on I94 Immigration dataset
@@ -37,16 +36,16 @@
 
 
 # AWS Infrastructure
-- The AWS infrastructure is set up according to this [https://aws.amazon.com/blogs/big-data/build-a-concurrent-data-orchestration-pipeline-using-amazon-emr-and-apache-livy/](tutorial)
+- The AWS infrastructure is set up according to this [tutorial](https://aws.amazon.com/blogs/big-data/build-a-concurrent-data-orchestration-pipeline-using-amazon-emr-and-apache-livy/)
 - Upload the CloudFormation script to create the resources, such as EC2 instance, RSD database for Airflow, security groups, S3 bucket
 - Then connect to the EC2 instance:
-``
+```
 sudo su
 cd ~/airflow
 source ~/.bash_profile
 bash start.sh
 bash run_dags.sh
-``
+```
 
 # ETL
 - dag_cluster: start the EMR cluster, and wait for all data transformation is finished, then terminate the cluster
