@@ -67,3 +67,19 @@ bash run_dags.sh
 - Livy session NOT started, restart EMR, restart Airflow scheduler
 
 
+# Scenarios
+- Data increase by 100x. read > write. write > read
+    - Redshift: Analytical database, optimized for aggregation, also good performance for read-heavy workloads
+    - Cassandra: Is optimized for writes, can be used to write online transactions as it comes in, and later aggregated into analytics tables in Redshift
+    - Increase EMR cluster size to handle bigger volume of data
+
+
+- Pipelines would be run on 7am daily. how to update dashboard? would it still work?
+    - DAG retries, or send emails on failures
+    - daily intervals with quality checks
+    - if checks fail, then send emails to operators, freeze dashboard, look at DAG logs to figure out what went wrong
+
+
+- Make it available to 100+ people
+    - Redshift with auto-scaling capabilities and good read performance
+    - Cassandra with pre-defined indexes to optimize read queries
